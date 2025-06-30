@@ -9,32 +9,38 @@
                     <h1 class="">Service manager</h1>
                 </div>
                 <div class="card-body">
-                    <a href="" class="btn btn-primary mt-2 mb-2">Create</a>
-                    <table class="table table-bordered text-center">
+                    <div class="mb-3">
+                        <a href="{{ route('service.create') }}" class="btn btn-success">tambah</a>
+                    </div>
+                    <table class="table table-bordered">
                         <tr>
                             <th>
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Service</th>
-                                    <th>price</th>
-                                    <th>description</th>
-                                    <th>action</th>
+                                    <th>Harga</th>
+                                    <th>Deskripsi</th>
+                                    <th>aksi</th>
                                 </tr>
                             </th>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="" class="btn btn-success">Edit</a>
-                                        <form action="" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <a href="" class="btn btn-danger m-2" type="submit" onclick="return confirm('yakin mau hapus?')">Delete </a>
-                                        </form>
-                                    </td>
-                                </tr>
+                            @foreach ($datas as $key => $data)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td> {{ $data->service_name}} </td>
+                                <td>{{ number_format( $data->price ) }}</td>
+                                <td>{{ $data->description }}</td>
+                                <td>
+                                    <a href="{{ route('service.edit', $data->id) }}" class="btn btn-success">Edit</a>
+                                    <form action="{{ route('service.destroy', $data->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('yakin mau hapus?')">
+                                             Del
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tr>
                     </table>
                 </div>

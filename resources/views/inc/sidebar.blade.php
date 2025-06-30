@@ -15,18 +15,18 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{ route('service') }}">
-              <i class="bi bi-circle"></i><span>Services</span>
+            <a href="{{ route('service.index') }}">
+              <i class="bi bi-circle"></i><span>Service</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Accordion</span>
+            <a href="{{ route('level.index') }}">
+              <i class="bi bi-circle"></i><span>Level</span>
             </a>
           </li>
           <li>
-            <a href="components-badges.html">
-              <i class="bi bi-circle"></i><span>Badges</span>
+            <a href="{{route ('customer.index')}}">
+              <i class="bi bi-circle"></i><span>Customer</span>
             </a>
           </li>
           <li>

@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BelajarController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LevelController;
+use App\Http\Controllers\ServiceController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -16,11 +19,13 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('actionLogin',  [LoginController::class, 'actionLogin'])->name('actionLogin');
 Route::resource('dashboard', DashboardController::class);
 
+
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard.index');
-    Route::get('service', [DashboardController::class, 'indexService'])->name('service');
-    Route::get('insert/service', [DashboardController::class, 'showInsService']);
+    Route::resource('level', LevelController::class);
+    Route::resource('service', ServiceController::class);
+    Route::resource('customer', CustomerController::class);
 });
 
 
