@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -26,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('level', LevelController::class);
     Route::resource('service', ServiceController::class);
     Route::resource('customer', CustomerController::class);
+    Route::resource('user', UserController::class);
 });
 
 

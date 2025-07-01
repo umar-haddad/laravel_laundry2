@@ -30,8 +30,8 @@
             </a>
           </li>
           <li>
-            <a href="components-breadcrumbs.html">
-              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
+            <a href="{{route ('user.index')}}">
+              <i class="bi bi-circle"></i><span>User</span>
             </a>
           </li>
           <li>
