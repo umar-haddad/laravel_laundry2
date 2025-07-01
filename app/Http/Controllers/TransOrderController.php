@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customers;
+use App\Models\TransOrders;
 use Illuminate\Http\Request;
+use App\Models\TypeOfServices;
+use Illuminate\Support\Carbon;
+use App\Models\TransOrderDetail;
 
 class TransOrderController extends Controller
 {
@@ -11,7 +16,9 @@ class TransOrderController extends Controller
      */
     public function index()
     {
-        //
+        $datas = TransOrders::with('customer')->orderBy('id', 'desc')->get(); // with->ngambil dari data customer
+        $title = "Transaksi Order";
+        return view('trans.index', compact('title', 'datas'));
     }
 
     /**
@@ -19,7 +26,16 @@ class TransOrderController extends Controller
      */
     public function create()
     {
-        //
+        $title ="Tambah Transaksi";
+        $today = Carbon::now()->format('dmY');
+        $countDay = TransOrders::whereDate('created_at', now()->toDateString())->count()+1;
+        $runningNumber = str_pad($countDay, 3,'0', STR_PAD_LEFT);
+        $orderCode = "TR-".$today."-".$runningNumber;
+
+        $customers = Customers::OrderBy('id', 'desc')->get();
+        $services = TypeOfServices::orderBy('id', 'desc')->get();
+
+        return view('trans.create', compact('title', 'orderCode', 'customers', 'services'));
     }
 
     /**
@@ -27,7 +43,25 @@ class TransOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $transOrder = TransOrders::create([
+            'id_customer'=>$request->id_customer,
+            'order_code'=>$request->order_code,
+            'order_end_date'=>$request->order_end_date,
+            'total'=>$request->total
+        ]);
+
+        foreach ($request->id_service as $key => $idService ) {
+            $id_trans = $transOrder->id;
+            TransOrderDetail::create([
+                'id_trans' => $id_trans,
+                'id_service' => $idService,
+                'qty' => $request->qty[$key],
+                'subtotal' => $request->subtotal[$key]
+            ]);
+        }
+
+        return redirect()->to('trans')->with('success', 'berhasil di order');
+
     }
 
     /**
@@ -59,6 +93,10 @@ class TransOrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transOrder = TransOrders::findOrFail($id);
+        $transOrder->delete();
+
+
+        return redirect()->to('trans')->with('success', 'Hapus service Berhasil' );
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TransOrderController;
 use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
@@ -28,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('service', ServiceController::class);
     Route::resource('customer', CustomerController::class);
     Route::resource('user', UserController::class);
+    Route::resource('trans', TransOrderController::class);
 });
 
 

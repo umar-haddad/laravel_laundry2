@@ -58,6 +58,7 @@
   <!-- Vendor JS Files -->
 
 @include('inc.js')
+
 </body>
 
 </html>
