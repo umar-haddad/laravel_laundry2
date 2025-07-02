@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Customers;
 use App\Models\TransOrders;
 use Illuminate\Http\Request;
@@ -69,7 +70,9 @@ class TransOrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $title = "Detail Transaksi";
+        $details = TransOrders::with(['customer', 'transOrderDetail.service'])->where('id', $id)->first();
+        return view('trans.show', compact('title', 'details'));
     }
 
     /**
@@ -98,5 +101,14 @@ class TransOrderController extends Controller
 
 
         return redirect()->to('trans')->with('success', 'Hapus service Berhasil' );
+    }
+
+    public function printStruk(string $id)
+    {
+        $details = TransOrders::with(['customer', 'transOrderDetail.service'])->where('id', $id)->first();
+        // return $details; // ->  buat debug laravel dan ada lagi yaitu => dd($details);
+
+        $pdf = Pdf::loadView('trans.print', compact('details'));
+        return $pdf->download('struk-transaksi.pdf');
     }
 }

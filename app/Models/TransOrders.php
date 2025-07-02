@@ -21,7 +21,11 @@ class TransOrders extends Model
         return $this->belongsTo(Customers::class, 'id_customer', 'id');
     }
 
-    public function getStatusTextAttribut() {
+    public function transOrderDetail() {
+        return $this->hasMany(TransOrderDetail::class, 'id_trans');
+    }
+
+    public function getStatusTextAttribute() {
         switch ($this->order_status) {
             case '1' :
                 return "sudah bayar";

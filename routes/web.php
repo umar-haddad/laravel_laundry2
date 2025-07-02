@@ -39,11 +39,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-
-
-
-
 Route::get('belajar', [BelajarController::class, 'index']);
 Route::get('tambah', [BelajarController::class, 'tambah'])->name('tambah');
 
