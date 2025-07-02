@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::resource('user', UserController::class);
     Route::resource('trans', TransOrderController::class);
+    Route::get('print_struk/{id}', [TransOrderController::class, 'printStruk'])->name('print_struk');
 });
 
 

@@ -49,8 +49,8 @@
 
                             </tbody>
                             <div class="col-md-6">
-                                <label for="" class="btn btn-outline-primary" id="grandtotal">Total :0</label>
-                                <input type="number" name="total">
+                                <label for="" class="btn btn-outline-primary" id="grandtotal">Grand Total : 0</label>
+                                <input type="hidden" name="total">
                             </div>
                             </table>
                         </div>

@@ -27,12 +27,13 @@
                             @foreach ($datas as $key => $data)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td> {{ $data->order_code}} </td>
+                                <td><a href="">{{ $data->order_code}} </a> </td>
                                 <td>{{ $data->customer->name }}</td>
                                 <td>{{ $data->order_end_date }}</td>
                                 <td>{{ $data->status_text }}</td>
                                 <td>
-                                    <a href="{{ route('trans.show', $data->id) }}" class="btn btn-success">Show</a>
+                                    <a href="{{ route('print_struk', $data->id) }}" class="btn btn-success">Print</a>
+                                    <a href="{{ route('trans.show', $data->id) }}" class="btn btn-success">Edit</a>
                                     <form action="{{ route('trans.destroy', $data->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
