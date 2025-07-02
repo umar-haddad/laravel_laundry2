@@ -83,7 +83,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="3">Grand Total</th>
-                            <td colspan="2" id="grand_total" class="text-right" align="right">Rp {{ number_format($details->total) }}</td>
+                            <td colspan="2" class="text-right" align="right">Rp {{ number_format($details->total) }}</td>
                         </tr>
                         <tr>
                             <th colspan="3">Bayar :</th>
@@ -100,6 +100,10 @@
                         </tr>
                     </tfoot>
                 </table>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" name="cash">Bayar Cash</button>
+                        <button class="btn btn-success" name="cashless">Cashless</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -109,11 +113,6 @@
     const orderChange = document.getElementById('order_change');
     const orderChangeDisplay = document.getElementById('order_change_display');
     const grandTotal = document.getElementById('grand_total');
-
-    grandTotal.value = grandTotal.toLocaleString('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-    });
 
     orderPay.addEventListener('input', function() {
         const total = {{ $details->total }};
@@ -125,6 +124,26 @@
             currency: 'IDR',
         });
         orderChange.value = change;
+    });
+
+</script>
+<script
+    type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+</script>
+
+<script>
+    snap.pay('{{ $snapToken }}', {
+        onSuccess: function(result) {
+            window.location.href = "/midtrans/finish?order_id={{ $details->order_code }}";
+        },
+        onPending: function(result) {
+            alert("Silakan selesaikan pembayaran.");
+        },
+        onError: function(result) {
+            alert("Pembayaran gagal.");
+        }
     });
 </script>
 @endsection
