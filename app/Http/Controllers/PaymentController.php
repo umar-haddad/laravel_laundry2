@@ -76,31 +76,37 @@ class TransOrderController extends Controller
         return redirect()->to('trans')->with('success', 'Data Berhasil Ditambah');
     }
 
+
+    // public function snap(Request $request, $id)
+    // {
+    //     $order = TransOrders::with('details', 'customer')->findOrFail($id);
+
+    //     $params = [
+    //         'transaction_details' => [
+    //             'order_id' => rand(),
+    //             'gross_amount' => 10000,
+    //         ],
+    //         'customer_details' => [
+    //             'first_name' => 'Bambang',
+    //             'last_name' => 'Pamungkas',
+    //             'email' => 'bambang@gmail.com',
+    //             'phone' => '0812383028',
+    //         ],
+    //         'enable_payment' => [
+    //             'qris'
+    //         ]
+    //     ];
+    //     // $snapToken = Snap::getSnapToken($params);
+    //     $snap = Snap::createTransaction($params);
+    //     return response()->json(['token' => $snap->token]);
+    // }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id, Request $request)
     {
-        $title = "Detail Transaksi";
-        $details = TransOrders::with('customer', 'details.service')->where('id', $id)->first();
-        $params = [
-            'transaction_details' => [
-                'order_id' => rand(),
-                'gross_amount' => 10000,
-            ],
-            'customer_details' => [
-                'first_name' => 'Bambang',
-                'last_name' => 'Pamungkas',
-                'email' => 'bambang@gmail.com',
-                'phone' => '0812383028',
-            ],
-            'enable_payment' => [
-                'qris'
-            ]
-        ];
-        $snapToken = Snap::getSnapToken($params);
-        return response()->json($snapToken);
-        return view('trans.show', compact('title', 'details'));
+
     }
 
     /**

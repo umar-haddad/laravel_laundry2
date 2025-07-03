@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('trans', TransOrderController::class);
     Route::get('print_struk/{id}', [TransOrderController::class, 'printStruk'])->name('print_struk');
+
+    Route::post('trans/{id}/snap', [TransOrderController::class, 'snap'])->name('trans.snap');
 });
 
 

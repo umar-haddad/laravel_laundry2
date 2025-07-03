@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\DomPDF\Facade\Pdf;
+use Midtrans\Snap;
 use App\Models\Customers;
 use App\Models\TransOrders;
 use Illuminate\Http\Request;
 use App\Models\TypeOfServices;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\TransOrderDetail;
 
 class TransOrderController extends Controller
@@ -110,5 +111,29 @@ class TransOrderController extends Controller
 
         $pdf = Pdf::loadView('trans.print', compact('details'));
         return $pdf->download('struk-transaksi.pdf');
+    }
+
+
+    public function snap(Request $request, $id)
+    {
+        $order = TransOrderDetail::with('details', 'customer')->findOrFail($id);
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => 'ORDER-' . $order->id,
+                 'gross_amount' => (int) $order->total,
+            ],
+            'customer_details' => [
+                'first_name' => $order->customer->first_name,
+                'email' => $order->customer->email,
+                'phone' => $order->customer->phone
+            ],
+            'enable_payment' => [
+                'qris'
+            ]
+        ];
+        // $snapToken = Snap::getSnapToken($params);
+        $snap = Snap::createTransaction($params);
+        return response()->json(['token' => $snap->token]);
     }
 }
