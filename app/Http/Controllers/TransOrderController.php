@@ -116,7 +116,7 @@ class TransOrderController extends Controller
 
     public function snap(Request $request, $id)
     {
-        $order = TransOrderDetail::with('details', 'customer')->findOrFail($id);
+        $order = TransOrders::with('customer')->findOrFail($id);
 
         $params = [
             'transaction_details' => [
