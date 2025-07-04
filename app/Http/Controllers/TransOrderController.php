@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Midtrans\Snap;
 use App\Models\Customers;
 use App\Models\TransOrders;
 use Illuminate\Http\Request;
@@ -10,12 +9,23 @@ use App\Models\TypeOfServices;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\TransOrderDetail;
+use Midtrans\Snap;
+use Midtrans\Config;
 
 class TransOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct()
+    {
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+    }
+
     public function index()
     {
         $datas = TransOrders::with('customer')->orderBy('id', 'desc')->get(); // with->ngambil dari data customer

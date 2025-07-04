@@ -22,7 +22,7 @@ class ApiController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|min:8',
+                'password' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -56,6 +56,7 @@ class ApiController extends Controller
              if ($validator->fails()) {
                 return response()->json([
                     'status' => 'error',
+                    'message' => 'Validation failed',
                     'errors' => $validator->errors()
                 ], 422);
             }
