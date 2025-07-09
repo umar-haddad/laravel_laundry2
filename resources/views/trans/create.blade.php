@@ -2,6 +2,7 @@
 @section('content')
 
 <div class="container"></div>
+ @include('sweetalert::alert')
     <div class="row">
         <div class="col-10">
             <div class="card">

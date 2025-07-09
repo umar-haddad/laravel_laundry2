@@ -42,6 +42,7 @@
 <body>
 
   <main>
+     @include('sweetalert::alert')
     <div class="container">
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -65,14 +66,26 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
+                  @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                   <form action="{{ route('actionLogin') }}" method="POST" class="row g-3 needs-validation" novalidate>
-@csrf
+                    @csrf
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">email</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="email" name="email" class="form-control" id="email" required>
+                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email" required>
                         <div class="invalid-feedback">Please enter your email.</div>
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                       </div>
                     </div>
 
@@ -81,6 +94,9 @@
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
 
                     <div class="col-12">
                       <div class="form-check">

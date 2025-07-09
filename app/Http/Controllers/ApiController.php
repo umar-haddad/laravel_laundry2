@@ -6,11 +6,36 @@ use Throwable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
+
+    public function loginAction(Request $request)
+    {
+        $credential = $request->only("email" , "password");
+        $validator = Validator::make($request->all(), [
+            'email' => 'requirde|email',
+            'password' => 'required|min:8'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+        }
+
+        if (!Auth::attempt($credential)) {
+            return response()->json(['status' => 'error', 'message'=>'Invalid Credential'], 401);
+        }
+
+        $user = Auth::user();
+        $token= $user->createToken('api-token')->plainTextToken;
+        return response()->json(['status' => 'success', 'user' => $user, 'token' => $token]);
+
+        // kita ini generate token pake sanctum ataun jwt
+    }
+
     public function getUsers()
     {
         $users = User::get();

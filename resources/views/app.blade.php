@@ -9,6 +9,7 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+
   @include('inc.css')
 </head>
 
@@ -19,6 +20,7 @@
   @include('inc.sidebar')
 
   <main id="main" class="main">
+      @include('sweetalert::alert')
 
     <div class="pagetitle">
       <h1>Blank Page</h1>
@@ -58,6 +60,7 @@
   <!-- Vendor JS Files -->
 
 @include('inc.js')
+@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
 </body>
 

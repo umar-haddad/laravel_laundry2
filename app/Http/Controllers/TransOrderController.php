@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Midtrans\Snap;
+use Midtrans\Config;
 use App\Models\Customers;
 use App\Models\TransOrders;
 use Illuminate\Http\Request;
@@ -9,8 +11,7 @@ use App\Models\TypeOfServices;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\TransOrderDetail;
-use Midtrans\Snap;
-use Midtrans\Config;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TransOrderController extends Controller
 {
@@ -30,6 +31,8 @@ class TransOrderController extends Controller
     {
         $datas = TransOrders::with('customer')->orderBy('id', 'desc')->get(); // with->ngambil dari data customer
         $title = "Transaksi Order";
+
+
         return view('trans.index', compact('title', 'datas'));
     }
 
@@ -108,8 +111,12 @@ class TransOrderController extends Controller
     public function destroy(string $id)
     {
         $transOrder = TransOrders::findOrFail($id);
-        $transOrder->delete();
 
+        $title = 'berhasil terhapus';
+        $text = 'yakin mau hapus';
+        confirmDelete($title, $text);
+
+        $transOrder->delete();
 
         return redirect()->to('trans')->with('success', 'Hapus service Berhasil' );
     }
