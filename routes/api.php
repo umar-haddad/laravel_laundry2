@@ -15,8 +15,15 @@ Route::get('/', function () {
     return response()->json($response, 200);
 });
 
-Route::get('user', [ApiController::class, 'getUsers']);
+// harus kirim token agar dapat diri nya
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [ApiController::class, 'getUsers']);
+    Route::get('me', [ApiController::class, 'me']);
+});
+
 Route::get('user/{id}', [ApiController::class, 'editUser']);
 Route::post('user', [ApiController::class, 'storeUser']);
 Route::put('user/{id}', [ApiController::class, 'updateUser']);
 Route::delete('user/{id}', [ApiController::class, 'deleteUser']);
+
+Route::post('login', [ApiController::class, 'loginAction']);

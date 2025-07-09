@@ -17,8 +17,8 @@ class ApiController extends Controller
     {
         $credential = $request->only("email" , "password");
         $validator = Validator::make($request->all(), [
-            'email' => 'requirde|email',
-            'password' => 'required|min:8'
+            'email' => 'required|email',
+            'password' => 'required|min:5'
         ]);
 
         if ($validator->fails()) {
@@ -34,6 +34,10 @@ class ApiController extends Controller
         return response()->json(['status' => 'success', 'user' => $user, 'token' => $token]);
 
         // kita ini generate token pake sanctum ataun jwt
+    }
+
+    public function me() {
+        return response()->json(['status' => 'success', 'data' => Auth::user()]);
     }
 
     public function getUsers()
